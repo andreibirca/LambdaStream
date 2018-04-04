@@ -13,6 +13,18 @@ public class Student {
         this.major = major;
     }
 
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public void setMajor(Major major) {
+        this.major = major;
+    }
+
     public Major getMajor() {
         return major;
     }

@@ -23,13 +23,14 @@ public class Main {
 
 
     public static final List<Student> STUDENTS = Arrays.asList(
-            new Student( "Valera", Gender.MALE, 23, new Major("english", 64)),
-            new Student( "Ira", Gender.FEMALE, 21, new Major("math", 54)),
-            new Student( "Valera", Gender.FEMALE, 21, new Major("math", 79)),
-            new Student( "Vasea", Gender.MALE, 29, new Major("phisics", 71)),
-            new Student( "Valera", Gender.MALE, 34, new Major("geo", 71)));
-
-
+            new Student("Valera", Gender.MALE, 23, new Major("english", 64)),
+            new Student("Ira", Gender.FEMALE, 21, new Major("math", 54)),
+            new Student("Valera", Gender.FEMALE, 21, new Major("math", 79)),
+            new Student("Vasea", Gender.MALE, 29, new Major("phisics", 71)),
+            new Student("Valera", Gender.MALE, 29, new Major("phisics", 71)),
+            new Student("Valera", Gender.MALE, 34, new Major("geo", 71)),
+            new Student("Valera", Gender.MALE, 34, new Major("geo", 75))
+    );
 
 
     public static void main(String args[]) {
@@ -48,7 +49,7 @@ public class Main {
         printDelimiterLine();
         printDelimiterLine();
 
-        List<String> strList = Arrays.asList("abc", "kjk", "rty", "123");
+        List<String> strList = Arrays.asList("abc", "kjk", "rty", "123", "abc");
 
         Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15)
                 .stream()
@@ -82,6 +83,7 @@ public class Main {
 
         System.out.println(Stream.of(new User("Vasea", MALE, 40),
                 new User("Sveta", FEMALE, 30),
+                new User("Sveta", FEMALE, 30),
                 new User("Jenea", MALE, 40))
                 .collect(Collectors.groupingBy(User::getName, Collectors.counting())));
 //                .collect(Collectors.groupingBy(User::getGender, Collectors.counting())));
@@ -101,7 +103,8 @@ public class Main {
 
 //        printDelimiterLine();
 
-        sortPoepleByAge(USERS, 50);
+        System.out.println("\n\nPeople older or equal to 40 years:\n");
+        sortPoepleByAge(USERS, 40);
 
         printDelimiterLine();
 
@@ -109,17 +112,17 @@ public class Main {
 
         printDelimiterLine();
 
-        System.out.println("Valera wirh the best Major"
-                            + findValeraWithBestOfAllMajors(STUDENTS));
+        System.out.println("Valera wirh the best Major\n"
+                + findValeraWithBestOfAllMajors(STUDENTS));
 
         printDelimiterLine();
 
-        System.out.println("The youngest user : "+ getYoungestUser(USERS));
+        System.out.println("The youngest user : " + getYoungestUser(USERS));
 
         printDelimiterLine();
 
         System.out.println("Sorted collection NO duplicates:\n"
-                            + sortCollectionAndRemoveDuplicates(strList));
+                + sortCollectionAndRemoveDuplicates(strList));
 
         printDelimiterLine();
 
@@ -141,25 +144,24 @@ public class Main {
 
 
     public static void sortPoepleByAge(List<User> list, int age) {
-        System.out.println("Poeple older than " + age + " years "
-                + list.stream().min(Comparator.comparingInt(User::getAge))
-        );
+                list.stream().filter(u-> u.getAge()>age).forEach(u -> System.out.println(u.getName()
+                        +" "+u.getGender()+" "+u.getAge()));
     }
 
-    public static Map<String, Optional<Student>> findValeraWithBestOfAllMajors(List<Student> students){
+    public static Map<String, Optional<Student>> findValeraWithBestOfAllMajors(List<Student> students) {
         return students.stream()
                 .filter(s -> s.getName().equals("Valera"))
                 .collect(Collectors.groupingBy(s -> s.getMajor().getName()
-                        ,Collectors.maxBy(Comparator.comparing(s->s.getMajor().getScore()))));
+                        , Collectors.maxBy(Comparator.comparing(s -> s.getMajor().getScore()))));
     }
 
-    public static User getYoungestUser(List<User> users){
+    public static User getYoungestUser(List<User> users) {
         return users.stream()
                 .min(Comparator.comparingInt(User::getAge))
                 .get();
     }
 
-    public static Collection<String> sortCollectionAndRemoveDuplicates(Collection<String> collection){
+    public static Collection<String> sortCollectionAndRemoveDuplicates(Collection<String> collection) {
         return collection.stream()
                 .distinct()
                 .sorted()
